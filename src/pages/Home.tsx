@@ -7,7 +7,6 @@ import draw from '../assets/draw.png';
 
 const Home: React.FC = () => {
     const navigation = useNavigation();
-    const catalog = "Catalog" as never;
 
     return (
         <View style={theme.container}>
@@ -24,7 +23,7 @@ const Home: React.FC = () => {
                 <TouchableOpacity
                     style={theme.primaryButton}
                     activeOpacity={0.8}
-                    onPress={() => navigation.navigate(catalog)}
+                    onPress={() => navigation.navigate("Catalog")}
                 >
                     <Text style={text.primaryText}>
                         INICIE AGORA A SUA BUSCA

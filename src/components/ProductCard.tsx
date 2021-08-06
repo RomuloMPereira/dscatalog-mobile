@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { text, theme } from '../styles';
 
 interface ProductProps {
@@ -10,9 +11,14 @@ interface ProductProps {
 }
 
 const ProductCard: React.FC<ProductProps> = ({ id, name, imgUrl, price }) => {
+    const navigation = useNavigation();
+
     return (
-        <TouchableOpacity style={theme.productCard}>
-            <Image source={{ uri: imgUrl }} style={{ width: 140, height: 140 }} />
+        <TouchableOpacity
+            style={theme.productCard}
+            onPress={() => navigation.navigate("ProductDetails", { id })}
+        >
+            <Image source={{ uri: imgUrl }} style={theme.productImage} />
             <View style={theme.productDescription}>
                 <Text style={text.productName}>{name}</Text>
                 <View style={theme.priceContainer}>

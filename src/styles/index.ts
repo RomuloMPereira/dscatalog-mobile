@@ -116,16 +116,22 @@ const theme = StyleSheet.create({
         marginVertical: 10,
         alignItems: "center",
         justifyContent: "space-around",
+        paddingTop: 16,
     },
     productDescription: {
         width: "100%",
         padding: 20,
         borderTopColor: colors.lightGray,
         borderTopWidth: 1,
+        marginTop: 16,
     },
     priceContainer: {
         flexDirection: "row",
         marginTop: 10,
+    },
+    productImage: {
+        width: 140,
+        height: 140,
     },
     //Filter
     inputContainer: {

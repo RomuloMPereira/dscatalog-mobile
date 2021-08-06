@@ -1,45 +1,26 @@
 import React from 'react';
+import { ScrollView, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
 import { ProductCard, SearchInput } from '../components';
-import productImg from '../assets/product.png';
-import { ScrollView } from 'react-native-gesture-handler';
-import { theme } from '../styles';
-import { useState } from 'react';
-
-const products = [
-    {
-        id: 1,
-        name: "Smartphone",
-        imgUrl: productImg,
-        price: 2779.0,
-    },
-    {
-        id: 2,
-        name: "Computador Desktop - Intel Core i7",
-        imgUrl: productImg,
-        price: 2779.0,
-    },
-    {
-        id: 3,
-        name: "Computador Desktop - Intel Core i7",
-        imgUrl: productImg,
-        price: 2779.0,
-    },
-    {
-        id: 4,
-        name: "Computador Desktop - Intel Core i7",
-        imgUrl: productImg,
-        price: 2779.0,
-    },
-    {
-        id: 5,
-        name: "Computador Desktop - Intel Core i7",
-        imgUrl: productImg,
-        price: 2779.0,
-    },
-];
+import { colors, theme } from '../styles';
+import { api } from '../services';
 
 const Catalog: React.FC = () => {
     const [search, setSearch] = useState("");
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    async function fillProducts() {
+        setLoading(true);
+        const result = await api.get('/products?page=0&linesPerPage=12&direction=ASC&orderBy=name');
+        //console.warn(result);
+        setProducts(result.data.content);
+        setLoading(false);
+    }
+
+    useEffect(() => {
+        fillProducts();
+    }, []);
 
     const data = search.length > 0 ?
         products.filter(product => product.name.toLowerCase().includes(search.toLowerCase())) : products;
@@ -51,9 +32,10 @@ const Catalog: React.FC = () => {
                 search={search}
                 setSearch={setSearch}
             />
-            {data.map((product) => (
-                <ProductCard {...product} key={product.id} />
-            ))}
+            {loading ? (<ActivityIndicator size="large" color={colors.primary} />) : (
+                data.map((product) => (
+                    <ProductCard {...product} key={product.id} />
+                )))}
         </ScrollView>
     );
 }

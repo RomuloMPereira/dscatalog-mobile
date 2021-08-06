@@ -48,6 +48,25 @@ const text = StyleSheet.create({
         fontWeight: "bold",
         color: colors.primary,
     },
+    goBackText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        textTransform: "uppercase",
+        color: colors.darkGray,
+        marginLeft: 16,
+    },
+    productDetailsName: {
+        fontSize: 30,
+        fontWeight: "bold",
+        marginTop: 10,
+        color: colors.darkGray,
+    },
+    productDescription: {
+        fontSize: 16,
+        fontWeight: "400",
+        color: colors.mediumGray,
+
+    },
 });
 
 const theme = StyleSheet.create({
@@ -69,6 +88,7 @@ const theme = StyleSheet.create({
             height: 2,
         },
         shadowOpacity: 0.25,
+        elevation: 1,
         shadowRadius: 3.84,
         alignItems: "center",
         justifyContent: "space-around",
@@ -113,6 +133,7 @@ const theme = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+        elevation: 1,
         marginVertical: 10,
         alignItems: "center",
         justifyContent: "space-around",
@@ -146,6 +167,7 @@ const theme = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+        elevation: 1,
         alignItems: "center",
         marginVertical: 12.5,
         paddingVertical: 10,
@@ -156,6 +178,52 @@ const theme = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderBottomColor: colors.borderGray,
     },
+    //Product Details
+    detailsContainer: {
+        backgroundColor: colors.white,
+        padding: 20,
+    },
+    detailsCard: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: colors.white,
+        borderRadius: 20,
+        borderColor: colors.mediumGray,
+        shadowColor: colors.black,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 3.84,
+        elevation: 1,
+        padding: 20,
+    },
+    goBackContainer: {
+        width: 290,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        marginBottom: 20,
+    },
+    productImageContainer: {
+        width: "100%",
+        borderWidth: 1,
+        borderColor: colors.lightGray,
+        alignItems: "center",
+        borderRadius: 20,
+    },
+    productImageDetails: {
+        width: 220,
+        height: 220,
+    },
+    scrollTextContainer: {
+        marginVertical: 20,
+        padding: 20,
+        borderWidth: 0.5,
+        borderRadius: 10,
+        borderColor: colors.lightGray,
+    }
 });
 
 export { colors, theme, text };

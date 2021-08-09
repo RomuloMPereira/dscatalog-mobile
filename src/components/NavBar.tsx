@@ -53,12 +53,12 @@ const NavBar: React.FC = () => {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={nav.option}
-                        onPress={() => navigate("ADM")}
+                        onPress={() => navigate("Login")}
                     >
                         <Text
                             style={[
                                 nav.textOption,
-                                route.name === "Home" ? nav.textActive : null]}
+                                route.name === "Login" ? nav.textActive : null]}
                         >
                             ADM
                         </Text>

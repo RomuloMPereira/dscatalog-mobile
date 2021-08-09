@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get('window').height;
 
 const colors = {
     white: "#FFFFFF",
@@ -134,7 +135,6 @@ const theme = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 1,
         marginVertical: 10,
         alignItems: "center",
         justifyContent: "space-around",
@@ -238,19 +238,21 @@ const nav = StyleSheet.create({
     },
     options: {
         width: deviceWidth,
-        height: 120,
+        height: 130,
         backgroundColor: colors.primary,
-        marginTop: 125,
+        paddingTop: 60,
         marginRight: -20,
         padding: 20,
-        justifyContent: "space-between",
     },
     option: {
-        paddingVertical: 5,
+        paddingVertical: 10,
+        flex: 1,
     },
     textOption: {
         color: colors.white,
         textTransform: "uppercase",
+        fontSize: 15,
+        position: "absolute",
     },
     textActive: {
         fontWeight: "bold",

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import { text, theme } from '../styles';
 import eyesOpened from '../assets/eyes-opened.png';
 import eyesClosed from '../assets/eyes-closed.png';
 import arrow from '../assets/arrow.png';
+import { login, isAuthenticated } from '../services/auth';
 
 const Login: React.FC = () => {
     const [hidePassword, setHidePassword] = useState(true);
@@ -12,8 +13,13 @@ const Login: React.FC = () => {
         password: ""
     });
 
+    useEffect(() => {
+        isAuthenticated();
+    }, []);
+
     async function handleLogin() {
-        console.warn('Fazer login');
+        const data = await login(userInfo);
+        console.warn(data);
     }
 
     return (
@@ -66,7 +72,7 @@ const Login: React.FC = () => {
                         activeOpacity={0.8}
                         onPress={() => handleLogin()}
                     >
-                        <View style={theme.buttonTextContainer}>
+                        <View>
                             <Text style={text.primaryText}>Fazer login</Text>
                         </View>
                         <View style={theme.arrowContainer}>

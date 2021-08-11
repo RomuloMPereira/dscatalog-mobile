@@ -1,16 +1,17 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { text, theme } from '../styles';
+import { admin, text, theme } from '../styles';
 
 interface ProductProps {
     id: number;
     name: string;
     imgUrl: string;
     price: number;
+    role?: string;
 }
 
-const ProductCard: React.FC<ProductProps> = ({ id, name, imgUrl, price }) => {
+const ProductCard: React.FC<ProductProps> = ({ id, name, imgUrl, price, role }) => {
     const navigation = useNavigation();
 
     return (
@@ -26,6 +27,22 @@ const ProductCard: React.FC<ProductProps> = ({ id, name, imgUrl, price }) => {
                     <Text style={text.productPrice}>{price}</Text>
                 </View>
             </View>
+            {
+                role === 'admin' && (
+                    <View style={admin.buttonContainer}>
+                        <TouchableOpacity style={admin.deleteButton}>
+                            <Text style={text.deleteButtonText}>
+                                Excluir
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={admin.editButton}>
+                            <Text style={text.editButtonText}>
+                                Editar
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )
+            }
         </TouchableOpacity>
     );
 }

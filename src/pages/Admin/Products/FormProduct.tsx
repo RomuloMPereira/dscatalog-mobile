@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TextInput, ActivityIndicator, Alert } from 'react-native';
 import Toast from 'react-native-tiny-toast';
 import { TextInputMask } from 'react-native-masked-text';
+import * as ImagePicker from 'expo-image-picker';
 import arrow from '../../../assets/arrow-blue.png';
-import { createProduct, getCategories } from '../../../services';
+import { createProduct, getCategories, uploadImage } from '../../../services';
 import { admin, colors, text, theme } from '../../../styles';
 
 interface FormProductProps {
@@ -23,6 +24,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     });
     const [categories, setCategories] = useState([]);
     const [showCategories, setShowCategories] = useState(false);
+    const [image, setImage] = useState("");
 
     async function loadCategories() {
         setLoading(true);
@@ -67,9 +69,39 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
         return res;
     }
 
+    async function selectImage() {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+        setImage(result.uri);
+    };
+
+    async function handleUpload() {
+        uploadImage(image).then(res => {
+            const { uri } = res?.data;
+            setProduct({ ...product, imgUrl: uri });
+        })
+    }
+
     useEffect(() => {
         loadCategories();
     }, []);
+
+    useEffect(() => {
+        async () => {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if (status !== "granted") {
+                Alert.alert("Precisamos de acesso a biblioteca de imagens!");
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        image ? handleUpload() : null;
+    }, [image]);
 
     return (
         <View style={admin.formContainer}>
@@ -132,12 +164,30 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                                 value={(product.price)}
                                 onChangeText={(e) => setProduct({ ...product, price: e })}
                             />
-                            <TouchableOpacity activeOpacity={0.8} style={admin.uploadBtn}>
+                            <TouchableOpacity
+                                activeOpacity={0.8}
+                                style={admin.uploadBtn}
+                                onPress={() => selectImage()}
+                            >
                                 <Text style={text.uploadText}>Carregar imagem</Text>
                             </TouchableOpacity>
                             <Text style={text.fileSize}>
                                 As imagens devem ser  JPG ou PNG e não devem ultrapassar 5 mb.
                             </Text>
+                            {
+                                image !== "" && (
+                                    <TouchableOpacity
+                                        onPress={() => selectImage()}
+                                        activeOpacity={0.9}
+                                        style={{ width: "100%", height: 150, borderRadius: 10, marginVertical: 10 }}
+                                    >
+                                        <Image
+                                            source={{ uri: image }}
+                                            style={{ width: "100%", height: "100%", borderRadius: 10 }}
+                                        />
+                                    </TouchableOpacity>
+                                )
+                            }
                             <TextInput
                                 multiline
                                 placeholder="Descrição"

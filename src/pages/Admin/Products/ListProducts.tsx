@@ -50,14 +50,15 @@ const Products: React.FC<ProductsProps> = (props) => {
                 setSearch={setSearch}
             />
             {loading ? (<ActivityIndicator size="large" color={colors.primary} />) : (
-                data.map((product) => (
-                    <ProductCard
+                data.map((product) => {
+                    const { id } = product;
+                    return (<ProductCard
                         {...product}
-                        key={product.id}
+                        key={id}
                         role="admin"
                         handleDelete={handleDelete}
-                    />
-                )))}
+                    />)
+                }))}
         </ScrollView>
     );
 }

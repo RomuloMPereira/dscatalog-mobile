@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { TextInputMask } from 'react-native-masked-text';
 import { admin, text, theme } from '../styles';
 
 interface ProductProps {
     id: number;
     name: string;
     imgUrl: string;
-    price: number;
+    price: string;
     role?: string;
     handleDelete?: Function;
 }
@@ -25,7 +26,19 @@ const ProductCard: React.FC<ProductProps> = ({ id, name, imgUrl, price, role, ha
                 <Text style={text.productName}>{name}</Text>
                 <View style={theme.priceContainer}>
                     <Text style={text.currency}>R$</Text>
-                    <Text style={text.productPrice}>{price}</Text>
+                    <TextInputMask
+                        type={"money"}
+                        options={{
+                            precision: 2,
+                            separator: ",",
+                            delimiter: ".",
+                            unit: " ",
+                            suffixUnit: ""
+                        }}
+                        value={price}
+                        editable={false}
+                        style={text.productPrice}
+                    />
                 </View>
             </View>
             {

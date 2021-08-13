@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TextInput, ActivityIndicator, Alert } from 'react-native';
 import Toast from 'react-native-tiny-toast';
+import { TextInputMask } from 'react-native-masked-text';
 import arrow from '../../../assets/arrow-blue.png';
 import { createProduct, getCategories } from '../../../services';
 import { admin, colors, text, theme } from '../../../styles';
@@ -17,7 +18,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
         name: "",
         description: "",
         imgUrl: "",
-        price: 0,
+        price: "",
         categories: [],
     });
     const [categories, setCategories] = useState([]);
@@ -39,6 +40,7 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
         const cat = replaceCategory();
         const data = {
             ...product,
+            price: getRawPrice(),
             categories: [
                 {
                     id: cat,
@@ -57,6 +59,12 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
     function replaceCategory() {
         const cat = categories.find(category => category.name === product.categories);
         return cat.id;
+    }
+
+    function getRawPrice() {
+        const str = product.price;
+        const res = str.slice(2).replace(/\./g, "").replace(/,/g, ".");
+        return res;
     }
 
     useEffect(() => {
@@ -117,11 +125,12 @@ const FormProduct: React.FC<FormProductProps> = (props) => {
                                     }
                                 </Text>
                             </TouchableOpacity>
-                            <TextInput
+                            <TextInputMask
+                                type="money"
                                 placeholder="Preço"
                                 style={admin.formInput}
                                 value={(product.price)}
-                                onChangeText={(e) => setProduct({ ...product, price: parseInt(e) })}
+                                onChangeText={(e) => setProduct({ ...product, price: e })}
                             />
                             <TouchableOpacity activeOpacity={0.8} style={admin.uploadBtn}>
                                 <Text style={text.uploadText}>Carregar imagem</Text>

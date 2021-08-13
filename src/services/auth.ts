@@ -1,4 +1,4 @@
-import { api, TOKEN } from "./index";
+import { api } from "./index";
 import queryString from 'query-string';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -6,6 +6,8 @@ interface AuthProps {
     username: string,
     password: string
 }
+
+const TOKEN = 'Basic Ym9vdGNhbXBkZXZzdXBlcmlvcmRzY2F0YWxvZzpkc2NhdGFsb2cxOTEwMTk4OA==';
 
 export async function login(userInfo: AuthProps) {
     const data = queryString.stringify({ ...userInfo, grant_type: "password" });
@@ -46,9 +48,4 @@ export async function doLogout() {
     } catch (e) {
         console.warn(e);
     }
-}
-
-export async function userToken() {
-    const token = await AsyncStorage.getItem("@token");
-    return token;
 }

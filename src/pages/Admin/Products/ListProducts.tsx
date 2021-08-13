@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SearchInput, ProductCard } from '../../../components';
-import { getProducts } from '../../../services';
+import { deleteProduct, getProducts } from '../../../services';
 import { colors, admin, text } from '../../../styles';
 
-interface ProductProps {
+interface ProductsProps {
     setScreen: Function;
 }
 
-const Products: React.FC<ProductProps> = (props) => {
+const Products: React.FC<ProductsProps> = (props) => {
     const [search, setSearch] = useState("");
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -19,6 +19,12 @@ const Products: React.FC<ProductProps> = (props) => {
         const result = await getProducts();
         setProducts(result.data.content);
         setLoading(false);
+    }
+
+    async function handleDelete(id: number) {
+        setLoading(true);
+        const response = await deleteProduct(id);
+        fillProducts();
     }
 
     useEffect(() => {
@@ -45,7 +51,12 @@ const Products: React.FC<ProductProps> = (props) => {
             />
             {loading ? (<ActivityIndicator size="large" color={colors.primary} />) : (
                 data.map((product) => (
-                    <ProductCard {...product} key={product.id} role="admin" />
+                    <ProductCard
+                        {...product}
+                        key={product.id}
+                        role="admin"
+                        handleDelete={handleDelete}
+                    />
                 )))}
         </ScrollView>
     );

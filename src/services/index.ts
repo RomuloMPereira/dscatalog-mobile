@@ -1,11 +1,17 @@
 import axios from 'axios';
-import { userToken } from './auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const api = axios.create({
     baseURL: "https://romulo-dscatalog-bootcamp.herokuapp.com",
 });
 
-export const TOKEN = 'Basic Ym9vdGNhbXBkZXZzdXBlcmlvcmRzY2F0YWxvZzpkc2NhdGFsb2cxOTEwMTk4OA==';
+
+export async function userToken() {
+    const token = await AsyncStorage.getItem("@token");
+    return token;
+}
+
+//Backend requests
 
 export function getProducts() {
     const response = api.get(`/products?direction=DESC&orderBy=name`);
@@ -25,4 +31,13 @@ export async function createProduct(data: object) {
         }
     })
     return response;
+}
+
+export async function deleteProduct(id: number) {
+    const authToken = await userToken();
+    const response = api.delete(`/products/${id}`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+        }
+    });
 }

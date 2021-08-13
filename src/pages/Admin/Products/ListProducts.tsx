@@ -6,13 +6,14 @@ import { colors, admin, text } from '../../../styles';
 
 interface ProductsProps {
     setScreen: Function;
+    setProductId: Function;
 }
 
 const Products: React.FC<ProductsProps> = (props) => {
     const [search, setSearch] = useState("");
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { setScreen } = props;
+    const { setScreen, setProductId } = props;
 
     async function fillProducts() {
         setLoading(true);
@@ -25,6 +26,11 @@ const Products: React.FC<ProductsProps> = (props) => {
         setLoading(true);
         const response = await deleteProduct(id);
         fillProducts();
+    }
+
+    function handleEdit(id: number) {
+        setProductId(id);
+        setScreen("editProduct");
     }
 
     useEffect(() => {
@@ -57,6 +63,7 @@ const Products: React.FC<ProductsProps> = (props) => {
                         key={id}
                         role="admin"
                         handleDelete={handleDelete}
+                        handleEdit={handleEdit}
                     />)
                 }))}
         </ScrollView>
